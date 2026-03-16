@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "5a5Q+9HEsJg=",
+  "success": true,
+  "projectFilePath": "/home/ralarcon/D/Learning/TestingFluentValidations/ConsoleUI/ConsoleUI.csproj",
+  "expectedPackageFiles": [
+    "/home/ralarcon/.nuget/packages/fluentvalidation/12.1.1/fluentvalidation.12.1.1.nupkg.sha512",
+    "/home/ralarcon/.nuget/packages/microsoft.netcore.app.host.linux-x64/9.0.13/microsoft.netcore.app.host.linux-x64.9.0.13.nupkg.sha512"
+  ],
+  "logs": []
+}
