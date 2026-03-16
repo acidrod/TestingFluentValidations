@@ -1,5 +1,3 @@
-using ConsoleUI;
-
 namespace ConsoleUI.Tests.ValidatorTests;
 
 public class ValidatorRegistryTests
