@@ -30,6 +30,9 @@ TestingFluentValidations/
 │   ├── Empleado.cs             # Modelo derivado (FechaContratacion, Sueldo, PorcentajeRetencion)
 │   ├── DynamicValidator.cs     # Validador genérico con reglas activables/desactivables
 │   └── ValidatorRegistry.cs    # Registro central de reglas por tipo + reglas de negocio
+├── ConsoleUI.Tests/
+│   └── ValidatorTests/
+│       └── ValidatorRegistryTests.cs  # Pruebas unitarias con xUnit
 └── TestingFluentValidations.slnx
 ```
 
@@ -81,7 +84,6 @@ Este proyecto **no incluye** ni pretende incluir:
 - Autenticación o autorización
 - API REST o cualquier tipo de servicio expuesto
 - Manejo de errores para producción
-- Pruebas unitarias o de integración
 
 ---
 
@@ -94,12 +96,19 @@ dotnet run --project ConsoleUI/ConsoleUI.csproj
 
 La app valida instancias de `Persona` y `Empleado` e imprime en consola si son válidas.
 
+## ¿Cómo ejecutar las pruebas?
+
+```bash
+dotnet test TestingFluentValidations.slnx
+```
+
 ## Estado actual de la POC
 
 - Validación dinámica por tipo funcionando.
 - `DynamicValidator<T>` consolidado (sin duplicar validadores por entidad).
 - Regla de retención por tramos de sueldo implementada en `Empleado`.
 - `.gitignore` agregado en `ConsoleUI/` con ignores clásicos de VS Code/.NET.
+- Pruebas unitarias con xUnit para `ValidatorRegistry` y `Program`.
 
 ---
 
