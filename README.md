@@ -1,6 +1,6 @@
 # TestingFluentValidations
 
-> ⚠️ **AVISO IMPORTANTE:** Este proyecto es **ÚNICAMENTE una validación de conceptos (proof of concept)**. No es una aplicación completa, ni está diseñada para ser usada en producción. Su propósito es explorar y demostrar patrones de validación dinámica con FluentValidation en .NET.
+> ⚠️ **AVISO IMPORTANTE:** Este proyecto es **ÚNICAMENTE una prueba de concepto (proof of concept)**. No es una aplicación completa, ni está diseñada para ser usada en producción. Su propósito es explorar y demostrar patrones de validación dinámica con FluentValidation en .NET.
 
 ---
 
