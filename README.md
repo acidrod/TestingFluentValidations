@@ -20,7 +20,7 @@ Este repositorio contiene una app de consola en C# que implementa una arquitectu
 
 ## Estructura del proyecto
 
-```
+```text
 TestingFluentValidations/
 ├── README.md
 ├── ConsoleUI/
@@ -41,6 +41,7 @@ TestingFluentValidations/
 ## Conceptos demostrados
 
 ### 1. Validador Dinámico (`DynamicValidator<T>`)
+
 `DynamicValidator<T>` recibe un diccionario de reglas con la forma `Dictionary<Action<AbstractValidator<T>>, bool>`. Solo ejecuta las reglas marcadas en `true`.
 
 ```csharp
@@ -53,9 +54,11 @@ new Dictionary<Action<AbstractValidator<T>>, bool>
 ```
 
 ### 2. Registro de Validadores (`ValidatorRegistry`)
+
 `ValidatorRegistry` actúa como punto central. Según el tipo (`Persona`, `Empleado`, etc.), arma el conjunto de reglas y devuelve el validador adecuado.
 
 ### 3. Regla de negocio compuesta (Sueldo + Retención)
+
 Además de reglas simples por campo, el validador de `Empleado` incluye una regla compuesta que valida el `% de retención` según el sueldo:
 
 - `1500` a `4000` -> `5%`
@@ -65,10 +68,12 @@ Además de reglas simples por campo, el validador de `Empleado` incluye una regl
 Esta validación se aplica sobre el objeto completo (`RuleFor(e => e).Must(...)`) porque depende de más de una propiedad.
 
 ### 4. Herencia de modelos
+
 - `Empleado` hereda de `Persona`.
 - Comparte validaciones base (por ejemplo `Name`, `Age`) y agrega reglas específicas.
 
 ### 5. Patrones aplicados
+
 - **Registry/Factory**: resolución de validador por tipo.
 - **Programación genérica**: un único `DynamicValidator<T>` para cualquier entidad.
 - **Reglas activables**: encendido/apagado por bandera booleana para POC y pruebas.
