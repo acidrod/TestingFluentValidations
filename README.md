@@ -1,12 +1,12 @@
 # TestingFluentValidations
 
-> ⚠️ **AVISO IMPORTANTE:** Este proyecto es **ÚNICAMENTE una prueba de concepto (proof of concept)**. No es una aplicación completa, ni está diseñada para ser usada en producción. Su propósito es explorar y demostrar patrones de validación dinámica con FluentValidation en .NET.
+> ⚠️ **AVISO IMPORTANTE:** Este proyecto es **únicamente una prueba de concepto (proof of concept)**. No es una aplicación completa ni está diseñada para producción. El objetivo es explorar validación dinámica con FluentValidation en .NET.
 
 ---
 
-## ¿De qué trata este proyecto?
+## Resumen
 
-Este repositorio contiene una aplicación de consola en C# que explora cómo implementar **validaciones dinámicas y reutilizables** utilizando la librería [FluentValidation](https://docs.fluentvalidation.net/). El foco principal es demostrar una arquitectura flexible de validación donde las reglas pueden activarse o desactivarse en tiempo de ejecución.
+Este repositorio contiene una app de consola en C# que implementa una arquitectura de validación dinámica y reutilizable con [FluentValidation](https://docs.fluentvalidation.net/). Las reglas se definen por tipo de modelo y pueden habilitarse o deshabilitarse con un diccionario de `bool`.
 
 ---
 
@@ -22,12 +22,14 @@ Este repositorio contiene una aplicación de consola en C# que explora cómo imp
 
 ```
 TestingFluentValidations/
+├── README.md
 ├── ConsoleUI/
+│   ├── .gitignore              # Ignorados clásicos de VS Code/.NET para este proyecto
 │   ├── Program.cs              # Punto de entrada, demuestra el uso de los validadores
-│   ├── Persona.cs              # Modelo base con propiedades Name y Age
-│   ├── Empleado.cs             # Modelo derivado con propiedades adicionales (FechaContratacion, Sueldo, etc.)
+│   ├── Persona.cs              # Modelo base (Name, Age)
+│   ├── Empleado.cs             # Modelo derivado (FechaContratacion, Sueldo, PorcentajeRetencion)
 │   ├── DynamicValidator.cs     # Validador genérico con reglas activables/desactivables
-│   └── ValidatorRegistry.cs   # Registro central de validadores por tipo
+│   └── ValidatorRegistry.cs    # Registro central de reglas por tipo + reglas de negocio
 └── TestingFluentValidations.slnx
 ```
 
@@ -36,28 +38,37 @@ TestingFluentValidations/
 ## Conceptos demostrados
 
 ### 1. Validador Dinámico (`DynamicValidator<T>`)
-Un validador genérico que recibe un diccionario de reglas, donde cada regla está asociada a un valor booleano que indica si debe aplicarse o no. Esto permite habilitar/deshabilitar reglas de validación en tiempo de ejecución sin modificar el código del validador.
+`DynamicValidator<T>` recibe un diccionario de reglas con la forma `Dictionary<Action<AbstractValidator<T>>, bool>`. Solo ejecuta las reglas marcadas en `true`.
 
 ```csharp
-// Ejemplo: la regla solo se aplica si el valor es true
+// Ejemplo: la regla solo se aplica si el valor es true.
 new Dictionary<Action<AbstractValidator<T>>, bool>
 {
-    { regla1, true },   // se aplica
-    { regla2, false },  // ignorada
+    { regla1, true },
+    { regla2, false },
 }
 ```
 
 ### 2. Registro de Validadores (`ValidatorRegistry`)
-Una clase estática que actúa como fábrica centralizada. Dado un tipo genérico `T`, devuelve el validador adecuado para ese tipo. Esto desacopla la creación y configuración de los validadores del resto de la aplicación.
+`ValidatorRegistry` actúa como punto central. Según el tipo (`Persona`, `Empleado`, etc.), arma el conjunto de reglas y devuelve el validador adecuado.
 
-### 3. Herencia de modelos y validadores
-- `Empleado` extiende `Persona`, heredando sus propiedades base (`Name`, `Age`).
-- El validador de `Empleado` incluye todas las reglas de `Persona` más reglas adicionales específicas del empleado (edad mínima de 18, salario positivo, fecha de contratación válida, etc.).
+### 3. Regla de negocio compuesta (Sueldo + Retención)
+Además de reglas simples por campo, el validador de `Empleado` incluye una regla compuesta que valida el `% de retención` según el sueldo:
 
-### 4. Patrones de diseño aplicados
-- **Strategy** – Selección dinámica de reglas mediante flags booleanos.
-- **Registry / Factory** – Creación centralizada de validadores por tipo.
-- **Programación genérica** – Un único `DynamicValidator<T>` funciona para cualquier clase.
+- `1500` a `4000` -> `5%`
+- `4001` a `6000` -> `7%`
+- Mayor a `6000` -> `10%`
+
+Esta validación se aplica sobre el objeto completo (`RuleFor(e => e).Must(...)`) porque depende de más de una propiedad.
+
+### 4. Herencia de modelos
+- `Empleado` hereda de `Persona`.
+- Comparte validaciones base (por ejemplo `Name`, `Age`) y agrega reglas específicas.
+
+### 5. Patrones aplicados
+- **Registry/Factory**: resolución de validador por tipo.
+- **Programación genérica**: un único `DynamicValidator<T>` para cualquier entidad.
+- **Reglas activables**: encendido/apagado por bandera booleana para POC y pruebas.
 
 ---
 
@@ -70,21 +81,28 @@ Este proyecto **no incluye** ni pretende incluir:
 - Autenticación o autorización
 - API REST o cualquier tipo de servicio expuesto
 - Manejo de errores para producción
-- Cobertura de pruebas unitarias o de integración
+- Pruebas unitarias o de integración
 
 ---
 
 ## ¿Cómo ejecutarlo?
 
 ```bash
-cd ConsoleUI
-dotnet run
+dotnet build
+dotnet run --project ConsoleUI/ConsoleUI.csproj
 ```
 
-La aplicación validará instancias de `Persona` y `Empleado` e imprimirá los resultados en consola.
+La app valida instancias de `Persona` y `Empleado` e imprime en consola si son válidas.
+
+## Estado actual de la POC
+
+- Validación dinámica por tipo funcionando.
+- `DynamicValidator<T>` consolidado (sin duplicar validadores por entidad).
+- Regla de retención por tramos de sueldo implementada en `Empleado`.
+- `.gitignore` agregado en `ConsoleUI/` con ignores clásicos de VS Code/.NET.
 
 ---
 
 ## Objetivo
 
-Este código nació como un espacio de exploración personal para entender cómo construir sistemas de validación flexibles y mantenibles usando FluentValidation. Sirve como referencia o punto de partida para quien quiera implementar algo similar en un proyecto real.
+Servir como base de exploración para diseñar validaciones flexibles en escenarios con múltiples modelos de negocio (por ejemplo, dominios contables con reglas distintas por entidad o región).
