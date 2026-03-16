@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../ConsoleUI/ConsoleUI.csproj" />
+    <ProjectReference Include="../../src/ConsoleUI/ConsoleUI.csproj" />
   </ItemGroup>
 
 </Project>

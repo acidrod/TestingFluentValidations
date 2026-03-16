@@ -1,7 +1,6 @@
 # TestingFluentValidations
 
 > ⚠️ **AVISO IMPORTANTE:** Este proyecto es **únicamente una prueba de concepto (proof of concept)**. No es una aplicación completa ni está diseñada para producción. El objetivo es explorar validación dinámica con FluentValidation en .NET.
-
 > ⚠️ **IMPORTANT NOTICE:** This project is **only a proof of concept**. It is not a complete application and is not designed for production use. Its purpose is to explore dynamic validation with FluentValidation in .NET.
 
 ---
@@ -29,19 +28,21 @@ Este repositorio contiene una app de consola en C# que implementa una arquitectu
 ```text
 TestingFluentValidations/
 ├── README.md
-├── ConsoleUI/
-│   ├── .gitignore              # Ignorados clásicos de VS Code/.NET para este proyecto
-│   ├── Program.cs              # Punto de entrada, demuestra el uso de los validadores
-│   ├── Persona.cs              # Modelo base (Name, Age)
-│   ├── Empleado.cs             # Modelo derivado (FechaContratacion, Sueldo, PorcentajeRetencion)
-│   ├── DynamicValidator.cs     # Validador genérico con reglas activables/desactivables
-│   └── ValidatorRegistry.cs    # Registro central de reglas por tipo + reglas de negocio
-├── ConsoleUI.Tests/
-│   └── ValidatorTests/
-│       └── ValidatorRegistryTests.cs  # Pruebas unitarias con xUnit
 ├── .github/
 │   └── workflows/
 │       └── ci.yml              # CI que compila y ejecuta pruebas unitarias
+├── src/
+│   └── ConsoleUI/
+│       ├── .gitignore          # Ignorados clásicos de VS Code/.NET para este proyecto
+│       ├── Program.cs          # Punto de entrada, demuestra el uso de los validadores
+│       ├── Persona.cs          # Modelo base (Name, Age)
+│       ├── Empleado.cs         # Modelo derivado (FechaContratacion, Sueldo, PorcentajeRetencion)
+│       ├── DynamicValidator.cs # Validador genérico con reglas activables/desactivables
+│       └── ValidatorRegistry.cs # Registro central de reglas por tipo + reglas de negocio
+├── tests/
+│   └── ConsoleUI.Tests/
+│       └── ValidatorTests/
+│           └── ValidatorRegistryTests.cs  # Pruebas unitarias con xUnit
 └── TestingFluentValidations.slnx
 ```
 
@@ -105,7 +106,7 @@ Este proyecto **no incluye** ni pretende incluir:
 
 ```bash
 dotnet build
-dotnet run --project ConsoleUI/ConsoleUI.csproj
+dotnet run --project src/ConsoleUI/ConsoleUI.csproj
 ```
 
 La app valida instancias de `Persona` y `Empleado` e imprime en consola si son válidas.
@@ -130,7 +131,7 @@ El repositorio incluye una workflow de GitHub Actions en `.github/workflows/ci.y
 - Validación dinámica por tipo funcionando.
 - `DynamicValidator<T>` consolidado (sin duplicar validadores por entidad).
 - Regla de retención por tramos de sueldo implementada en `Empleado`.
-- `.gitignore` agregado en `ConsoleUI/` con ignores clásicos de VS Code/.NET.
+- Estructura reorganizada en carpetas `src/` y `tests/`.
 - Pruebas unitarias con xUnit para `ValidatorRegistry` y `Program`.
 - Solución y pruebas alineadas en `.NET 9.0`.
 - CI configurada para compilar y probar automáticamente en GitHub Actions.
@@ -166,19 +167,21 @@ This repository contains a C# console application that implements a reusable dyn
 ```text
 TestingFluentValidations/
 ├── README.md
-├── ConsoleUI/
-│   ├── .gitignore              # Standard VS Code/.NET ignores for this project
-│   ├── Program.cs              # Entry point showing validator usage
-│   ├── Persona.cs              # Base model (Name, Age)
-│   ├── Empleado.cs             # Derived model (HireDate, Salary, WithholdingRate)
-│   ├── DynamicValidator.cs     # Generic validator with enable/disable rule flags
-│   └── ValidatorRegistry.cs    # Central registry of rules per type + business rules
-├── ConsoleUI.Tests/
-│   └── ValidatorTests/
-│       └── ValidatorRegistryTests.cs  # xUnit unit tests
 ├── .github/
 │   └── workflows/
 │       └── ci.yml              # CI that builds the solution and runs unit tests
+├── src/
+│   └── ConsoleUI/
+│       ├── .gitignore          # Standard VS Code/.NET ignores for this project
+│       ├── Program.cs          # Entry point showing validator usage
+│       ├── Persona.cs          # Base model (Name, Age)
+│       ├── Empleado.cs         # Derived model (HireDate, Salary, WithholdingRate)
+│       ├── DynamicValidator.cs # Generic validator with enable/disable rule flags
+│       └── ValidatorRegistry.cs # Central registry of rules per type + business rules
+├── tests/
+│   └── ConsoleUI.Tests/
+│       └── ValidatorTests/
+│           └── ValidatorRegistryTests.cs  # xUnit unit tests
 └── TestingFluentValidations.slnx
 ```
 
@@ -242,7 +245,7 @@ This project does **not** include and does not aim to include:
 
 ```bash
 dotnet build
-dotnet run --project ConsoleUI/ConsoleUI.csproj
+dotnet run --project src/ConsoleUI/ConsoleUI.csproj
 ```
 
 The console app validates `Persona` and `Empleado` instances and prints whether they are valid.
@@ -267,7 +270,7 @@ The repository includes a GitHub Actions workflow in `.github/workflows/ci.yml` 
 - Dynamic validation by type is working.
 - `DynamicValidator<T>` is consolidated without duplicating validators per entity.
 - The salary-band withholding rule is implemented for `Empleado`.
-- A standard `.gitignore` was added under `ConsoleUI/`.
+- The repository structure has been reorganized into `src/` and `tests/` folders.
 - xUnit unit tests cover `ValidatorRegistry` and `Program`.
 - The solution and tests are aligned on `.NET 9.0`.
 - CI is configured to build and test automatically in GitHub Actions.
