@@ -26,5 +26,5 @@ publish/
 
 appsettings.Development.json
 secrets.json
-ConsoleUI/obj/Debug/net9.0/ConsoleUI.AssemblyInfo.cs
-ConsoleUI/obj/Debug/net9.0/ConsoleUI.AssemblyInfoInputs.cache
+ConsoleUI/obj/
+ConsoleUI/bin/
