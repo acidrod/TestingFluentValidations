@@ -21,7 +21,7 @@ public static class Program
             Age = 25, 
             FechaContratacion = DateTime.Now, 
             Sueldo = 5000, 
-            PorcentajeRetencion = 5 
+            PorcentajeRetencion = 7 
         };
 
         // Obtener el validador específico para Empleado desde el registro central

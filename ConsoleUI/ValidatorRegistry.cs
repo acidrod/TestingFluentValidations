@@ -43,8 +43,26 @@ public static class ValidatorRegistry
             { v => v.RuleFor(e => e.FechaContratacion).NotEmpty().WithMessage("La fecha de contratación es requerida"), true },
             { v => v.RuleFor(e => e.FechaContratacion).LessThanOrEqualTo(DateTime.Now).WithMessage("La fecha no puede ser futura"), true },
             { v => v.RuleFor(e => e.Sueldo).GreaterThan(0).WithMessage("El sueldo debe ser mayor a 0"), true },
-            { v => v.RuleFor(e => e.PorcentajeRetencion).InclusiveBetween(0, 100).WithMessage("El porcentaje debe estar entre 0 y 100"), true }
+            { v => v.RuleFor(e => e.PorcentajeRetencion).InclusiveBetween(0, 100).WithMessage("El porcentaje debe estar entre 0 y 100"), true },
+            { v => v.RuleFor(e => e).Must(TenerRetencionValidaSegunSueldo).WithMessage("El porcentaje de retención no corresponde al sueldo del empleado"), true }
         };
         return new DynamicValidator<Empleado>(rulesToApply);
+    }
+
+    private static bool TenerRetencionValidaSegunSueldo(Empleado empleado)
+    {
+        var porcentajeEsperado = ObtenerPorcentajeRetencionEsperado(empleado.Sueldo);
+        return empleado.PorcentajeRetencion == porcentajeEsperado;
+    }
+
+    private static decimal ObtenerPorcentajeRetencionEsperado(decimal sueldo)
+    {
+        return sueldo switch
+        {
+            >= 1500m and <= 4000m => 5m,
+            >= 4001m and <= 6000m => 7m,
+            > 6000m => 10m,
+            _ => 0m
+        };
     }
 }
