@@ -1,4 +1,8 @@
-﻿namespace ConsoleUI;
+﻿using ConsoleUI.Enums;
+using ConsoleUI.Models;
+using ConsoleUI.Validators;
+
+namespace ConsoleUI;
 
 public static class Program
 {
@@ -18,10 +22,14 @@ public static class Program
         var employee = new Empleado 
         { 
             Name = "Bob", 
-            Age = 25, 
+            Age = 20,
+            Sucursal = Sucursal.Sur,
             FechaContratacion = DateTime.Now, 
-            Sueldo = 5000, 
-            PorcentajeRetencion = 7 
+            Sueldo = 1000, 
+            PorcentajeRetencion = 5,
+            Incentivo = 700,
+            AfectoArticulo22 = true,
+            HorasDiarias = 3
         };
 
         // Obtener el validador específico para Empleado desde el registro central
@@ -29,6 +37,16 @@ public static class Program
         
         // Validar la instancia de Empleado usando el validador obtenido
         var resultEmpleado = employeeValidator.Validate(employee);
+
+        if(!resultEmpleado.IsValid)
+        {
+            Console.WriteLine("Lista de errores:");
+            foreach (var error in resultEmpleado.Errors)
+            {
+                Console.WriteLine($"\t Error en {error.PropertyName}: {error.ErrorMessage}");
+            }
+        }
+
         Console.WriteLine($"Empleado válido: {resultEmpleado.IsValid}");
     }
 }
