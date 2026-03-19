@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  security-events: write
 
 jobs:
   build:
@@ -70,3 +71,81 @@ jobs:
           name: test-results-${{ github.sha }}
           path: TestResults/**/*.trx
           if-no-files-found: warn
+
+  security:
+    name: Security
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup .NET SDKs
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/global.json', '**/NuGet.Config') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore TestingFluentValidations.slnx
+
+      - name: Build with Security Code Scan analysis
+        run: |
+          mkdir -p results
+          dotnet build TestingFluentValidations.slnx --no-restore /p:ErrorLevel=warn /p:ReportAnalyzer=true /p:ErrorLog="$GITHUB_WORKSPACE/results/security-code-scan.sarif"
+
+      - name: Normalize SARIF to 2.1.0 for GitHub upload
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+
+          const input = 'results/security-code-scan.sarif';
+          if (!fs.existsSync(input)) {
+            console.log('No SARIF file found at ' + input + '. Skipping normalization.');
+            process.exit(0);
+          }
+
+          const sarif = JSON.parse(fs.readFileSync(input, 'utf8'));
+          sarif.version = '2.1.0';
+          sarif.$schema = 'https://json.schemastore.org/sarif-2.1.0.json';
+
+          if (!Array.isArray(sarif.runs)) {
+            sarif.runs = [];
+          }
+
+          for (const run of sarif.runs) {
+            const oldTool = run.tool || {};
+            const oldDriver = oldTool.driver || {};
+
+            run.tool = {
+              driver: {
+                name: oldDriver.name || oldTool.name || 'SecurityCodeScan',
+                version: oldDriver.version || oldTool.version,
+                semanticVersion: oldDriver.semanticVersion || oldTool.semanticVersion,
+                fullName: oldDriver.fullName || 'Vulnerability Patterns Detector for C# and VB.NET',
+                informationUri: oldDriver.informationUri || 'https://security-code-scan.github.io',
+                rules: Array.isArray(oldDriver.rules) ? oldDriver.rules : []
+              }
+            };
+          }
+
+          fs.writeFileSync(input, JSON.stringify(sarif, null, 2));
+          console.log('SARIF normalized: ' + input);
+          EOF
+
+      - name: Verify SARIF file exists
+        run: ls -la results
+
+      - name: Upload SARIF results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: results
+          category: security-code-scan
