@@ -224,3 +224,47 @@ jobs:
         with:
           sarif_file: results
           category: security-code-scan
+
+      - name: Security Gate (PR only)
+        if: github.event_name == 'pull_request'
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+
+          const input = 'results/security-code-scan.sarif';
+          if (!fs.existsSync(input)) {
+            console.log('No SARIF file found for security gate: ' + input);
+            process.exit(1);
+          }
+
+          const sarif = JSON.parse(fs.readFileSync(input, 'utf8'));
+          const runs = Array.isArray(sarif.runs) ? sarif.runs : [];
+          const allResults = runs.flatMap((r) => Array.isArray(r.results) ? r.results : []);
+
+          // High impact rules that should block pull requests.
+          const blockingRules = new Set([
+            'SCS0001', // Command Injection
+            'SCS0002', // SQL Injection
+            'SCS0003', // XPath Injection
+            'SCS0004', // Certificate Validation Disabled
+            'SCS0007', // XXE
+            'SCS0018', // Path Traversal
+            'SCS0028', // Insecure Deserialization
+            'SCS0029', // XSS
+            'SCS0031', // LDAP Injection
+            'CA5350',  // Weak crypto algorithm
+            'CA5351'   // Weak crypto algorithm
+          ]);
+
+          const failures = allResults.filter((r) => blockingRules.has(String(r.ruleId || '').toUpperCase()));
+
+          if (failures.length > 0) {
+            console.log('Security gate failed. Blocking findings:');
+            for (const f of failures) {
+              console.log(`- ${f.ruleId}: ${f.message?.text || ''}`);
+            }
+            process.exit(1);
+          }
+
+          console.log('Security gate passed. No blocking findings detected.');
+          EOF

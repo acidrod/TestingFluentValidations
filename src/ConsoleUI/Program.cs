@@ -1,8 +1,6 @@
 ﻿using ConsoleUI.Enums;
 using ConsoleUI.Models;
 using ConsoleUI.Validators;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace ConsoleUI;
 
@@ -50,16 +48,5 @@ public static class Program
         }
 
         Console.WriteLine($"Empleado válido: {resultEmpleado.IsValid}");
-
-        // Intencionalmente inseguro para validar que el analyzer reporte hallazgos.
-        _ = InsecureHashForDemo("demo");
-    }
-
-    private static byte[] InsecureHashForDemo(string input)
-    {
-#pragma warning disable SYSLIB0021
-        using var hashProvider = new SHA1CryptoServiceProvider();
-#pragma warning restore SYSLIB0021
-        return hashProvider.ComputeHash(Encoding.UTF8.GetBytes(input));
     }
 }

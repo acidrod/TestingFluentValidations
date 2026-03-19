@@ -1,8 +1,0 @@
-root = true
-
-[*.cs]
-# Force a security warning for weak cryptography in this demo.
-dotnet_diagnostic.CA5350.severity = warning
-dotnet_diagnostic.CA5351.severity = warning
-# If SecurityCodeScan emits this rule, keep it visible as warning.
-dotnet_diagnostic.SCS0006.severity = warning
