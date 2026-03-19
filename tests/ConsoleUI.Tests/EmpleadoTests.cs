@@ -3,13 +3,13 @@ using ConsoleUI.Models;
 namespace ConsoleUI.Tests;
 
 /// <summary>
-/// Pruebas unitarias para la l骻ica de negocio de la entidad <see cref="Empleado"/>.
-/// Verifica el c醠culo de <see cref="Empleado.SueldoNeto"/> y los valores por defecto de las propiedades.
+/// Pruebas unitarias para la l贸gica de negocio de la entidad <see cref="Empleado"/>.
+/// Verifica el c谩lculo de <see cref="Empleado.SueldoNeto"/> y los valores por defecto de las propiedades.
 /// </summary>
 public class EmpleadoTests
 {
     /// <summary>
-    /// Verifica que sin retenci髇 ni incentivo, el sueldo neto sea igual al sueldo bruto.
+    /// Verifica que sin retenci贸n ni incentivo, el sueldo neto sea igual al sueldo bruto.
     /// </summary>
     [Fact]
     public void SueldoNeto_SinRetencionNiIncentivo_DebeSerIgualAlSueldo()
@@ -20,8 +20,8 @@ public class EmpleadoTests
     }
 
     /// <summary>
-    /// Verifica que con retenci髇 y sin incentivo, se descuente correctamente.
-    /// F髍mula: Sueldo - (Sueldo * Retenci髇 / 100).
+    /// Verifica que con retenci贸n y sin incentivo, se descuente correctamente.
+    /// F贸rmula: Sueldo - (Sueldo * Retenci贸n / 100).
     /// </summary>
     [Fact]
     public void SueldoNeto_ConRetencionSinIncentivo_DebeDescontarRetencion()
@@ -33,8 +33,8 @@ public class EmpleadoTests
     }
 
     /// <summary>
-    /// Verifica que sin retenci髇 y con incentivo, se sume correctamente.
-    /// F髍mula: Sueldo + Incentivo.
+    /// Verifica que sin retenci贸n y con incentivo, se sume correctamente.
+    /// F贸rmula: Sueldo + Incentivo.
     /// </summary>
     [Fact]
     public void SueldoNeto_SinRetencionConIncentivo_DebeSumarIncentivo()
@@ -46,8 +46,8 @@ public class EmpleadoTests
     }
 
     /// <summary>
-    /// Verifica que con retenci髇 e incentivo, el c醠culo completo sea correcto.
-    /// F髍mula: Sueldo - (Sueldo * Retenci髇 / 100) + Incentivo.
+    /// Verifica que con retenci贸n e incentivo, el c谩lculo completo sea correcto.
+    /// F贸rmula: Sueldo - (Sueldo * Retenci贸n / 100) + Incentivo.
     /// </summary>
     [Fact]
     public void SueldoNeto_ConRetencionYIncentivo_DebeCalcularCorrectamente()
@@ -59,7 +59,7 @@ public class EmpleadoTests
     }
 
     /// <summary>
-    /// Verifica el c醠culo de sueldo neto con m鷏tiples combinaciones de sueldo, retenci髇 e incentivo.
+    /// Verifica el c谩lculo de sueldo neto con m煤ltiples combinaciones de sueldo, retenci贸n e incentivo.
     /// </summary>
     [Theory]
     [InlineData(1000, 5, 200, 1150)]   // 1000 - 50 + 200 = 1150
@@ -89,7 +89,7 @@ public class EmpleadoTests
     }
 
     /// <summary>
-    /// Crea un empleado con los valores de sueldo, retenci髇 e incentivo proporcionados para pruebas.
+    /// Crea un empleado con los valores de sueldo, retenci贸n e incentivo proporcionados para pruebas.
     /// </summary>
     private static Empleado CrearEmpleado(decimal sueldo, decimal retencion, decimal incentivo)
     {

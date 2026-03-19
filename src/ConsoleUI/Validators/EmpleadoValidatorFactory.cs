@@ -44,19 +44,19 @@ public static class EmpleadoValidatorFactory
         // Obtener reglas base de Persona
         var rulesToApply = PersonaValidatorFactory.GetPersonaBaseRules<Empleado>();
 
-        // Agregar regla espec�fica: empleado debe ser mayor de 18
+        // Agregar regla específica: empleado debe ser mayor de 18
         rulesToApply.Add(
             v => v.RuleFor(e => e.Age)
                 .GreaterThanOrEqualTo(18)
-                .WithMessage("El empleado debe ser mayor de 18 a�os"),
+                .WithMessage("El empleado debe ser mayor de 18 años"),
             Enabled
         );
 
-        // Reglas espec�ficas de Empleado
+        // Reglas específicas de Empleado
         rulesToApply.Add(
             v => v.RuleFor(e => e.FechaContratacion)
                 .NotEmpty()
-                .WithMessage("La fecha de contrataci�n es requerida"),
+                .WithMessage("La fecha de contratación es requerida"),
             Enabled
         );
         rulesToApply.Add(
@@ -68,7 +68,7 @@ public static class EmpleadoValidatorFactory
         rulesToApply.Add(
             v => v.RuleFor(e => e.Sueldo)
                 .GreaterThanOrEqualTo(sueldoMinimo)
-                .WithMessage($"El sueldo debe ser como m�nimo de {sueldoMinimo}"),
+                .WithMessage($"El sueldo debe ser como mínimo de {sueldoMinimo}"),
             Enabled
         );
         rulesToApply.Add(
@@ -81,11 +81,11 @@ public static class EmpleadoValidatorFactory
             v => v.RuleFor(e => e)
                 .Must(TenerRetencionValidaSegunSueldo)
                 .WithName("PorcentajeRetencion")
-                .WithMessage("El porcentaje de retenci�n no corresponde al sueldo del empleado"),
+                .WithMessage("El porcentaje de retención no corresponde al sueldo del empleado"),
             Enabled
         );
 
-        // Validacion de incentivos seg�n la sucursal
+        // Validación de incentivos según la sucursal
         rulesToApply.Add(
             v => v.RuleFor(e => e.Incentivo)
                 .Must((empleado, incentivo) => TenerIncentivoValidoSegunSucursal(empleado))
@@ -94,7 +94,7 @@ public static class EmpleadoValidatorFactory
             Enabled
         );
 
-        // Empleados NO afectos al Art. 22: m�nimo 8 horas, m�ximo 12
+        // Empleados NO afectos al Art. 22: mínimo 8 horas, máximo 12
         rulesToApply.Add(
             v => v.RuleFor(e => e.HorasDiarias)
             .InclusiveBetween(8,12)
@@ -103,7 +103,7 @@ public static class EmpleadoValidatorFactory
             Enabled
         );
 
-        // Empleados afectos al Art. 22: sin m�nimo, pero m�ximo 24 (validaci�n b�sica)
+        // Empleados afectos al Art. 22: sin mínimo, pero máximo 24 (validación básica)
         rulesToApply.Add(
             v => v.RuleFor(e => e.HorasDiarias)
                 .InclusiveBetween(0, 24)
@@ -116,11 +116,11 @@ public static class EmpleadoValidatorFactory
     }
 
     /// <summary>
-    /// Determina si el porcentaje de retenci�n del empleado corresponde al esperado seg�n su sueldo.
+    /// Determina si el porcentaje de retención del empleado corresponde al esperado según su sueldo.
     /// </summary>
     /// <param name="empleado">Instancia de <see cref="Empleado"/> a evaluar.</param>
     /// <returns>
-    /// <see langword="true"/> si el porcentaje de retenci�n coincide con el esperado;
+    /// <see langword="true"/> si el porcentaje de retención coincide con el esperado;
     /// <see langword="false"/> en caso contrario.
     /// </returns>
     private static bool TenerRetencionValidaSegunSueldo(Empleado empleado)
@@ -130,19 +130,19 @@ public static class EmpleadoValidatorFactory
     }
 
     /// <summary>
-    /// Obtiene el porcentaje de retenci�n esperado seg�n el rango salarial.
+    /// Obtiene el porcentaje de retención esperado según el rango salarial.
     /// </summary>
     /// <remarks>
     /// Los rangos definidos son:
     /// <list type="bullet">
-    ///   <item><description>$1.000 � $4.000: 5%</description></item>
-    ///   <item><description>$4.001 � $6.000: 7%</description></item>
-    ///   <item><description>M�s de $6.000: 10%</description></item>
+    ///   <item><description>$1.000 a $4.000: 5%</description></item>
+    ///   <item><description>$4.001 a $6.000: 7%</description></item>
+    ///   <item><description>Más de $6.000: 10%</description></item>
     ///   <item><description>Cualquier otro valor: 0%</description></item>
     /// </list>
     /// </remarks>
     /// <param name="sueldo">Sueldo bruto del empleado.</param>
-    /// <returns>Porcentaje de retenci�n esperado.</returns>
+    /// <returns>Porcentaje de retención esperado.</returns>
     private static decimal ObtenerPorcentajeRetencionEsperado(decimal sueldo)
     {
         return sueldo switch
@@ -155,7 +155,7 @@ public static class EmpleadoValidatorFactory
     }
 
     /// <summary>
-    /// Determina si el incentivo del empleado corresponde al esperado seg�n su sucursal.
+    /// Determina si el incentivo del empleado corresponde al esperado según su sucursal.
     /// </summary>
     /// <param name="empleado">Instancia de <see cref="Empleado"/> a evaluar.</param>
     /// <returns>
@@ -169,7 +169,7 @@ public static class EmpleadoValidatorFactory
     }
 
     /// <summary>
-    /// Obtiene el monto de incentivo esperado seg�n la sucursal asignada.
+    /// Obtiene el monto de incentivo esperado según la sucursal asignada.
     /// </summary>
     /// <remarks>
     /// Los incentivos por sucursal son:

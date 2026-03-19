@@ -5,14 +5,14 @@ using ConsoleUI.Validators;
 namespace ConsoleUI.Tests.ValidatorTests;
 
 /// <summary>
-/// Pruebas unitarias para las reglas de validaciÛn de la entidad <see cref="Empleado"/>.
-/// Incluye validaciones heredadas de <see cref="Persona"/>, reglas especÌficas del empleado,
-/// validaciones condicionales (ArtÌculo 22) y pruebas de m˙ltiples errores simult·neos.
+/// Pruebas unitarias para las reglas de validaci√≥n de la entidad <see cref="Empleado"/>.
+/// Incluye validaciones heredadas de <see cref="Persona"/>, reglas espec√≠ficas del empleado,
+/// validaciones condicionales (Art√≠culo 22) y pruebas de m√∫ltiples errores simult√°neos.
 /// </summary>
 public class EmpleadoValidatorTests
 {
     /// <summary>
-    /// Verifica que un empleado con todos los campos v·lidos pase todas las validaciones.
+    /// Verifica que un empleado con todos los campos v√°lidos pase todas las validaciones.
     /// </summary>
     [Fact]
     public void Empleado_Valido_DebeSerValido()
@@ -26,7 +26,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que un empleado con nombre vacÌo falle con la regla heredada de Persona.
+    /// Verifica que un empleado con nombre vac√≠o falle con la regla heredada de Persona.
     /// </summary>
     [Fact]
     public void Empleado_NombreVacio_DebeFallar()
@@ -58,7 +58,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que un empleado con edad exactamente 18 sea v·lido (GreaterThanOrEqualTo).
+    /// Verifica que un empleado con edad exactamente 18 sea v√°lido (GreaterThanOrEqualTo).
     /// </summary>
     [Fact]
     public void Empleado_EdadIgual18_DebeSerValido()
@@ -73,7 +73,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que un empleado menor de 18 aÒos falle con la regla especÌfica de empleado.
+    /// Verifica que un empleado menor de 18 a√±os falle con la regla espec√≠fica de empleado.
     /// </summary>
     [Fact]
     public void Empleado_EdadMenorA18_DebeFallar()
@@ -85,11 +85,11 @@ public class EmpleadoValidatorTests
         var result = validator.Validate(empleado);
 
         Assert.False(result.IsValid);
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "El empleado debe ser mayor de 18 aÒos");
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "El empleado debe ser mayor de 18 a√±os");
     }
 
     /// <summary>
-    /// Verifica que una fecha de contrataciÛn vacÌa (default) produzca error de campo requerido.
+    /// Verifica que una fecha de contrataci√≥n vac√≠a (default) produzca error de campo requerido.
     /// </summary>
     [Fact]
     public void Empleado_FechaContratacionVacia_DebeFallar()
@@ -101,11 +101,11 @@ public class EmpleadoValidatorTests
         var result = validator.Validate(empleado);
 
         Assert.False(result.IsValid);
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "La fecha de contrataciÛn es requerida");
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "La fecha de contrataci√≥n es requerida");
     }
 
     /// <summary>
-    /// Verifica que una fecha de contrataciÛn futura produzca error.
+    /// Verifica que una fecha de contrataci√≥n futura produzca error.
     /// </summary>
     [Fact]
     public void Empleado_FechaFutura_DebeFallar()
@@ -121,7 +121,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que un sueldo menor al mÌnimo (1000) produzca error.
+    /// Verifica que un sueldo menor al m√≠nimo (1000) produzca error.
     /// </summary>
     [Fact]
     public void Empleado_SueldoMenorAlMinimo_DebeFallar()
@@ -134,11 +134,11 @@ public class EmpleadoValidatorTests
         var result = validator.Validate(empleado);
 
         Assert.False(result.IsValid);
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "El sueldo debe ser como mÌnimo de 1000");
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "El sueldo debe ser como m√≠nimo de 1000");
     }
 
     /// <summary>
-    /// Verifica que un porcentaje de retenciÛn negativo falle por estar fuera del rango 0-100.
+    /// Verifica que un porcentaje de retenci√≥n negativo falle por estar fuera del rango 0-100.
     /// </summary>
     [Fact]
     public void Empleado_RetencionNegativa_DebeFallar()
@@ -154,7 +154,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que un porcentaje de retenciÛn mayor a 100 falle por estar fuera del rango 0-100.
+    /// Verifica que un porcentaje de retenci√≥n mayor a 100 falle por estar fuera del rango 0-100.
     /// </summary>
     [Fact]
     public void Empleado_RetencionFueraDeRango_DebeFallar()
@@ -170,7 +170,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que un porcentaje de retenciÛn que no corresponde al tramo del sueldo produzca error.
+    /// Verifica que un porcentaje de retenci√≥n que no corresponde al tramo del sueldo produzca error.
     /// </summary>
     [Fact]
     public void Empleado_RetencionInvalidaSegunSueldo_DebeFallar()
@@ -183,7 +183,7 @@ public class EmpleadoValidatorTests
         var result = validator.Validate(empleado);
 
         Assert.False(result.IsValid);
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "El porcentaje de retenciÛn no corresponde al sueldo del empleado");
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "El porcentaje de retenci√≥n no corresponde al sueldo del empleado");
     }
 
     /// <summary>
@@ -207,11 +207,11 @@ public class EmpleadoValidatorTests
         var result = validator.Validate(empleado);
 
         Assert.False(result.IsValid);
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "El porcentaje de retenciÛn no corresponde al sueldo del empleado");
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "El porcentaje de retenci√≥n no corresponde al sueldo del empleado");
     }
 
     /// <summary>
-    /// Verifica que las retenciones correctas para cada tramo de sueldo sean v·lidas.
+    /// Verifica que las retenciones correctas para cada tramo de sueldo sean v√°lidas.
     /// Tramos: 1000-4000 ? 5%, 4001-6000 ? 7%, >6000 ? 10%.
     /// </summary>
     [Theory]
@@ -234,7 +234,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que incentivos incorrectos seg˙n la sucursal produzcan error.
+    /// Verifica que incentivos incorrectos seg√∫n la sucursal produzcan error.
     /// Norte ? 500, Sur ? 700, Central ? 200.
     /// </summary>
     [Theory]
@@ -258,7 +258,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que los incentivos correctos seg˙n la sucursal sean v·lidos.
+    /// Verifica que los incentivos correctos seg√∫n la sucursal sean v√°lidos.
     /// Norte ? 500, Sur ? 700, Central ? 200.
     /// </summary>
     [Theory]
@@ -277,10 +277,10 @@ public class EmpleadoValidatorTests
         Assert.True(result.IsValid);
     }
 
-    #region Casos lÌmite (Boundary Testing)
+    #region Casos l√≠mite (Boundary Testing)
 
     /// <summary>
-    /// Verifica que el sueldo exactamente 1000 (lÌmite inferior) sea v·lido.
+    /// Verifica que el sueldo exactamente 1000 (l√≠mite inferior) sea v√°lido.
     /// </summary>
     [Fact]
     public void Empleado_SueldoExactamente1000_DebeSerValido()
@@ -288,7 +288,7 @@ public class EmpleadoValidatorTests
         var validator = ValidatorRegistry.GetValidator<Empleado>();
         var empleado = CrearEmpleadoValido();
         empleado.Sueldo = 1000;
-        empleado.PorcentajeRetencion = 5; // RetenciÛn correcta para sueldo 1000
+        empleado.PorcentajeRetencion = 5; // Retenci√≥n correcta para sueldo 1000
 
         var result = validator.Validate(empleado);
 
@@ -296,7 +296,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que un sueldo de 999 (justo por debajo del mÌnimo) falle.
+    /// Verifica que un sueldo de 999 (justo por debajo del m√≠nimo) falle.
     /// </summary>
     [Fact]
     public void Empleado_SueldoExactamente999_DebeFallar()
@@ -309,11 +309,11 @@ public class EmpleadoValidatorTests
         var result = validator.Validate(empleado);
 
         Assert.False(result.IsValid);
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "El sueldo debe ser como mÌnimo de 1000");
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "El sueldo debe ser como m√≠nimo de 1000");
     }
 
     /// <summary>
-    /// Verifica que retenciÛn 0 sea v·lida en rango (0-100) aunque falle por sueldo mÌnimo.
+    /// Verifica que retenci√≥n 0 sea v√°lida en rango (0-100) aunque falle por sueldo m√≠nimo.
     /// </summary>
     [Fact]
     public void Empleado_RetencionExactamente0_DebeSerValido()
@@ -325,13 +325,13 @@ public class EmpleadoValidatorTests
 
         var result = validator.Validate(empleado);
 
-        // Falla por sueldo mÌnimo, pero retenciÛn 0 es v·lida en rango
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "El sueldo debe ser como mÌnimo de 1000");
+        // Falla por sueldo m√≠nimo, pero retenci√≥n 0 es v√°lida en rango
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "El sueldo debe ser como m√≠nimo de 1000");
         Assert.DoesNotContain(result.Errors, e => e.ErrorMessage == "El porcentaje debe estar entre 0 y 100");
     }
 
     /// <summary>
-    /// Verifica que retenciÛn 100 sea v·lida en rango (0-100) aunque falle por regla de negocio.
+    /// Verifica que retenci√≥n 100 sea v√°lida en rango (0-100) aunque falle por regla de negocio.
     /// </summary>
     [Fact]
     public void Empleado_RetencionExactamente100_DebeSerValidoEnRango()
@@ -342,16 +342,16 @@ public class EmpleadoValidatorTests
 
         var result = validator.Validate(empleado);
 
-        // Falla por retenciÛn seg˙n sueldo, pero 100 est· dentro del rango 0-100
+        // Falla por retenci√≥n seg√∫n sueldo, pero 100 est√° dentro del rango 0-100
         Assert.DoesNotContain(result.Errors, e => e.ErrorMessage == "El porcentaje debe estar entre 0 y 100");
     }
 
     #endregion
 
-    #region Horas diarias - No afecto al ArtÌculo 22
+    #region Horas diarias - No afecto al Art√≠culo 22
 
     /// <summary>
-    /// Verifica que un empleado no afecto al Art. 22 con 8 horas sea v·lido.
+    /// Verifica que un empleado no afecto al Art. 22 con 8 horas sea v√°lido.
     /// </summary>
     [Fact]
     public void Empleado_NoAfectoArt22_HorasDentroDeRango_DebeSerValido()
@@ -367,7 +367,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que las horas dentro del rango 8-12 sean v·lidas para empleados no afectos al Art. 22.
+    /// Verifica que las horas dentro del rango 8-12 sean v√°lidas para empleados no afectos al Art. 22.
     /// </summary>
     [Theory]
     [InlineData(8)]
@@ -427,10 +427,10 @@ public class EmpleadoValidatorTests
 
     #endregion
 
-    #region Horas diarias - Afecto al ArtÌculo 22
+    #region Horas diarias - Afecto al Art√≠culo 22
 
     /// <summary>
-    /// Verifica que las horas entre 0 y 24 sean v·lidas para empleados afectos al Art. 22 (sin jornada mÌnima).
+    /// Verifica que las horas entre 0 y 24 sean v√°lidas para empleados afectos al Art. 22 (sin jornada m√≠nima).
     /// </summary>
     [Theory]
     [InlineData(0)]
@@ -450,7 +450,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que m·s de 24 horas falle incluso para empleados afectos al Art. 22.
+    /// Verifica que m√°s de 24 horas falle incluso para empleados afectos al Art. 22.
     /// </summary>
     [Fact]
     public void Empleado_AfectoArt22_HorasMayorA24_DebeFallar()
@@ -484,7 +484,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que 0 horas sea v·lido para empleados afectos al Art. 22 (sin jornada mÌnima obligatoria).
+    /// Verifica que 0 horas sea v√°lido para empleados afectos al Art. 22 (sin jornada m√≠nima obligatoria).
     /// </summary>
     [Fact]
     public void Empleado_AfectoArt22_0Horas_DebeSerValido()
@@ -500,7 +500,7 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que 0 horas falle para empleados no afectos al Art. 22 (requiere mÌnimo 8 horas).
+    /// Verifica que 0 horas falle para empleados no afectos al Art. 22 (requiere m√≠nimo 8 horas).
     /// </summary>
     [Fact]
     public void Empleado_NoAfectoArt22_0Horas_DebeFallar()
@@ -518,11 +518,11 @@ public class EmpleadoValidatorTests
 
     #endregion
 
-    #region M˙ltiples errores simult·neos
+    #region M√∫ltiples errores simult√°neos
 
     /// <summary>
-    /// Verifica que m˙ltiples errores b·sicos (nombre corto, menor de edad, fecha futura, sueldo bajo)
-    /// se retornen todos simult·neamente.
+    /// Verifica que m√∫ltiples errores b√°sicos (nombre corto, menor de edad, fecha futura, sueldo bajo)
+    /// se retornen todos simult√°neamente.
     /// </summary>
     [Fact]
     public void Empleado_MultiplesErroresBasicos_DebeRetornarTodosLosErrores()
@@ -533,7 +533,7 @@ public class EmpleadoValidatorTests
             Name = "A",                              // Error: nombre muy corto
             Age = 15,                                // Error: menor de 18
             FechaContratacion = DateTime.Now.AddDays(5), // Error: fecha futura
-            Sueldo = 500,                            // Error: sueldo menor al mÌnimo
+            Sueldo = 500,                            // Error: sueldo menor al m√≠nimo
             PorcentajeRetencion = 0,
             Sucursal = Sucursal.Central,
             Incentivo = 200,
@@ -544,15 +544,15 @@ public class EmpleadoValidatorTests
         var result = validator.Validate(empleado);
 
         Assert.False(result.IsValid);
-        Assert.True(result.Errors.Count >= 4, $"DeberÌa tener al menos 4 errores, pero tiene {result.Errors.Count}");
+        Assert.True(result.Errors.Count >= 4, $"Deber√≠a tener al menos 4 errores, pero tiene {result.Errors.Count}");
         Assert.Contains(result.Errors, e => e.ErrorMessage == "El nombre debe tener al menos 3 caracteres");
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "El empleado debe ser mayor de 18 aÒos");
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "El empleado debe ser mayor de 18 a√±os");
         Assert.Contains(result.Errors, e => e.ErrorMessage == "La fecha no puede ser futura");
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "El sueldo debe ser como mÌnimo de 1000");
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "El sueldo debe ser como m√≠nimo de 1000");
     }
 
     /// <summary>
-    /// Verifica que errores en reglas de negocio (retenciÛn incorrecta + incentivo incorrecto)
+    /// Verifica que errores en reglas de negocio (retenci√≥n incorrecta + incentivo incorrecto)
     /// se retornen exactamente 2 errores.
     /// </summary>
     [Fact]
@@ -565,9 +565,9 @@ public class EmpleadoValidatorTests
             Age = 25,
             FechaContratacion = DateTime.Now.AddDays(-1),
             Sueldo = 5000,
-            PorcentajeRetencion = 5,    // Error: deberÌa ser 7 para sueldo 5000
+            PorcentajeRetencion = 5,    // Error: deber√≠a ser 7 para sueldo 5000
             Sucursal = Sucursal.Norte,
-            Incentivo = 200,             // Error: deberÌa ser 500 para Norte
+            Incentivo = 200,             // Error: deber√≠a ser 500 para Norte
             AfectoArticulo22 = false,
             HorasDiarias = 8
         };
@@ -576,13 +576,13 @@ public class EmpleadoValidatorTests
 
         Assert.False(result.IsValid);
         Assert.Equal(2, result.Errors.Count);
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "El porcentaje de retenciÛn no corresponde al sueldo del empleado");
+        Assert.Contains(result.Errors, e => e.ErrorMessage == "El porcentaje de retenci√≥n no corresponde al sueldo del empleado");
         Assert.Contains(result.Errors, e => e.PropertyName == "Incentivo");
     }
 
     /// <summary>
-    /// Verifica que cuando todos los campos son inv·lidos se retornen al menos 6 errores.
-    /// Incluye: nombre vacÌo, edad 0, fecha default, sueldo 0, retenciÛn fuera de rango,
+    /// Verifica que cuando todos los campos son inv√°lidos se retornen al menos 6 errores.
+    /// Incluye: nombre vac√≠o, edad 0, fecha default, sueldo 0, retenci√≥n fuera de rango,
     /// incentivo incorrecto y horas insuficientes.
     /// </summary>
     [Fact]
@@ -591,10 +591,10 @@ public class EmpleadoValidatorTests
         var validator = ValidatorRegistry.GetValidator<Empleado>();
         var empleado = new Empleado
         {
-            Name = "",                               // Error 1: nombre vacÌo
+            Name = "",                               // Error 1: nombre vac√≠o
             Age = 0,                                 // Error 2: edad no positiva, Error 3: menor de 18
-            FechaContratacion = default,             // Error 4: fecha vacÌa
-            Sueldo = 0,                              // Error 5: sueldo menor al mÌnimo
+            FechaContratacion = default,             // Error 4: fecha vac√≠a
+            Sueldo = 0,                              // Error 5: sueldo menor al m√≠nimo
             PorcentajeRetencion = 150,               // Error 6: fuera de rango 0-100
             Sucursal = Sucursal.Sur,
             Incentivo = 100,                         // Error 7: incentivo incorrecto para Sur
@@ -605,13 +605,13 @@ public class EmpleadoValidatorTests
         var result = validator.Validate(empleado);
 
         Assert.False(result.IsValid);
-        Assert.True(result.Errors.Count >= 6, $"DeberÌa tener al menos 6 errores, pero tiene {result.Errors.Count}");
+        Assert.True(result.Errors.Count >= 6, $"Deber√≠a tener al menos 6 errores, pero tiene {result.Errors.Count}");
     }
 
     #endregion
 
     /// <summary>
-    /// Crea un empleado con todos los campos v·lidos para usar como base en los tests.
+    /// Crea un empleado con todos los campos v√°lidos para usar como base en los tests.
     /// Sucursal Central, 8 horas diarias, no afecto al Art. 22.
     /// </summary>
     private static Empleado CrearEmpleadoValido()

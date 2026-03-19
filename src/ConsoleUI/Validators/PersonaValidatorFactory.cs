@@ -4,24 +4,24 @@ using FluentValidation;
 namespace ConsoleUI.Validators;
 
 /// <summary>
-/// Fábrica estática encargada de crear validadores para la entidad <see cref="Persona"/>
+/// FÃ¡brica estÃ¡tica encargada de crear validadores para la entidad <see cref="Persona"/>
 /// y de exponer las reglas base reutilizables que pueden ser heredadas por entidades derivadas.
 /// </summary>
 /// <remarks>
 /// Las reglas base incluyen validaciones sobre las propiedades <see cref="Persona.Name"/> y
-/// <see cref="Persona.Age"/>, y están diseñadas para ser compartidas mediante el método genérico
+/// <see cref="Persona.Age"/>, y estÃ¡n diseÃ±adas para ser compartidas mediante el mÃ©todo genÃ©rico
 /// <see cref="GetPersonaBaseRules{T}"/>.
 /// </remarks>
 public static class PersonaValidatorFactory
 {
     /// <summary>
-    /// Obtiene un diccionario con las reglas de validación base aplicables a cualquier entidad
+    /// Obtiene un diccionario con las reglas de validaciÃ³n base aplicables a cualquier entidad
     /// que herede de <see cref="Persona"/>.
     /// </summary>
     /// <remarks>
     /// Las reglas incluidas son:
     /// <list type="bullet">
-    ///   <item><description><see cref="Persona.Name"/>: no puede estar vacío.</description></item>
+    ///   <item><description><see cref="Persona.Name"/>: no puede estar vacÃ­o.</description></item>
     ///   <item><description><see cref="Persona.Name"/>: debe tener al menos 3 caracteres.</description></item>
     ///   <item><description><see cref="Persona.Age"/>: debe ser mayor a 0.</description></item>
     ///   <item><description><see cref="Persona.Age"/>: debe ser menor a 110.</description></item>
@@ -29,7 +29,7 @@ public static class PersonaValidatorFactory
     /// </remarks>
     /// <typeparam name="T">Tipo que hereda de <see cref="Persona"/>.</typeparam>
     /// <returns>
-    /// Diccionario de reglas de validación con su estado de activación (<see langword="true"/> = activa).
+    /// Diccionario de reglas de validaciÃ³n con su estado de activaciÃ³n (<see langword="true"/> = activa).
     /// </returns>
     public static Dictionary<Action<AbstractValidator<T>>, bool> GetPersonaBaseRules<T>() where T : Persona
     {
@@ -44,7 +44,7 @@ public static class PersonaValidatorFactory
 
     /// <summary>
     /// Crea una instancia de <see cref="DynamicValidator{T}"/> configurada con las reglas base
-    /// de validación para <see cref="Persona"/>.
+    /// de validaciÃ³n para <see cref="Persona"/>.
     /// </summary>
     /// <returns>
     /// Una nueva instancia de <see cref="DynamicValidator{T}"/> de tipo <see cref="Persona"/>.

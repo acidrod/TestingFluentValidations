@@ -4,13 +4,13 @@ using ConsoleUI.Validators;
 namespace ConsoleUI.Tests.ValidatorTests;
 
 /// <summary>
-/// Pruebas unitarias para las reglas de validaciÛn de la entidad <see cref="Persona"/>.
+/// Pruebas unitarias para las reglas de validaci√≥n de la entidad <see cref="Persona"/>.
 /// Verifica las reglas base de nombre y edad definidas en <see cref="PersonaValidatorFactory"/>.
 /// </summary>
 public class PersonaValidatorTests
 {
     /// <summary>
-    /// Verifica que una persona con nombre y edad v·lidos pase todas las validaciones.
+    /// Verifica que una persona con nombre y edad v√°lidos pase todas las validaciones.
     /// </summary>
     [Fact]
     public void Persona_Valida_DebeSerValida()
@@ -24,7 +24,7 @@ public class PersonaValidatorTests
     }
 
     /// <summary>
-    /// Verifica que un nombre vacÌo produzca el error "El nombre es requerido".
+    /// Verifica que un nombre vac√≠o produzca el error "El nombre es requerido".
     /// </summary>
     [Fact]
     public void Persona_NombreVacio_DebeFallar()
@@ -39,7 +39,7 @@ public class PersonaValidatorTests
     }
 
     /// <summary>
-    /// Verifica que un nombre con menos de 3 caracteres produzca error de longitud mÌnima.
+    /// Verifica que un nombre con menos de 3 caracteres produzca error de longitud m√≠nima.
     /// </summary>
     [Fact]
     public void Persona_NombreCorto_DebeFallar()
@@ -69,7 +69,7 @@ public class PersonaValidatorTests
     }
 
     /// <summary>
-    /// Verifica que una edad mayor o igual a 110 produzca error de lÌmite superior.
+    /// Verifica que una edad mayor o igual a 110 produzca error de l√≠mite superior.
     /// </summary>
     [Fact]
     public void Persona_EdadMayorA110_DebeFallar()
@@ -83,7 +83,7 @@ public class PersonaValidatorTests
         Assert.Contains(result.Errors, e => e.ErrorMessage == "La edad debe ser menor a 110");
     }
 
-    #region Casos lÌmite (Boundary Testing)
+    #region Casos l√≠mite (Boundary Testing)
 
     /// <summary>
     /// Verifica que una edad negativa produzca error de edad no positiva.
@@ -101,7 +101,7 @@ public class PersonaValidatorTests
     }
 
     /// <summary>
-    /// Verifica que la edad exactamente 110 sea inv·lida (regla: menor estricto a 110).
+    /// Verifica que la edad exactamente 110 sea inv√°lida (regla: menor estricto a 110).
     /// </summary>
     [Fact]
     public void Persona_EdadExactamente110_DebeFallar()
@@ -116,7 +116,7 @@ public class PersonaValidatorTests
     }
 
     /// <summary>
-    /// Verifica que la edad 109 sea el m·ximo v·lido (lÌmite superior - 1).
+    /// Verifica que la edad 109 sea el m√°ximo v√°lido (l√≠mite superior - 1).
     /// </summary>
     [Fact]
     public void Persona_EdadExactamente109_DebeSerValida()
@@ -130,7 +130,7 @@ public class PersonaValidatorTests
     }
 
     /// <summary>
-    /// Verifica que la edad 1 sea el mÌnimo v·lido (lÌmite inferior + 1).
+    /// Verifica que la edad 1 sea el m√≠nimo v√°lido (l√≠mite inferior + 1).
     /// </summary>
     [Fact]
     public void Persona_EdadExactamente1_DebeSerValida()
@@ -144,7 +144,7 @@ public class PersonaValidatorTests
     }
 
     /// <summary>
-    /// Verifica que un nombre con exactamente 3 caracteres sea v·lido (lÌmite mÌnimo de longitud).
+    /// Verifica que un nombre con exactamente 3 caracteres sea v√°lido (l√≠mite m√≠nimo de longitud).
     /// </summary>
     [Fact]
     public void Persona_NombreExactamente3Caracteres_DebeSerValido()
@@ -159,10 +159,10 @@ public class PersonaValidatorTests
 
     #endregion
 
-    #region M˙ltiples errores simult·neos
+    #region M√∫ltiples errores simult√°neos
 
     /// <summary>
-    /// Verifica que al tener nombre vacÌo y edad negativa se retornen todos los errores correspondientes.
+    /// Verifica que al tener nombre vac√≠o y edad negativa se retornen todos los errores correspondientes.
     /// </summary>
     [Fact]
     public void Persona_MultiplesErrores_DebeRetornarTodosLosErrores()
@@ -173,7 +173,7 @@ public class PersonaValidatorTests
         var result = validator.Validate(persona);
 
         Assert.False(result.IsValid);
-        Assert.True(result.Errors.Count >= 2, "DeberÌa tener al menos 2 errores");
+        Assert.True(result.Errors.Count >= 2, "Deber√≠a tener al menos 2 errores");
         Assert.Contains(result.Errors, e => e.ErrorMessage == "El nombre es requerido");
         Assert.Contains(result.Errors, e => e.ErrorMessage == "La edad debe ser mayor a 0");
     }

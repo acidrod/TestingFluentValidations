@@ -3,7 +3,7 @@ using ConsoleUI.Enums;
 namespace ConsoleUI.Models;
 
 /// <summary>
-/// Representa un empleado de la organizaciÛn, extendiendo la informaciÛn b·sica de <see cref="Persona"/>.
+/// Representa un empleado de la organizaci√≥n, extendiendo la informaci√≥n b√°sica de <see cref="Persona"/>.
 /// </summary>
 public class Empleado : Persona
 {
@@ -29,12 +29,12 @@ public class Empleado : Persona
     public decimal Sueldo { get; set; }
 
     /// <summary>
-    /// Obtiene o establece el porcentaje de retenciÛn aplicado al sueldo del empleado.
+    /// Obtiene o establece el porcentaje de retenci√≥n aplicado al sueldo del empleado.
     /// </summary>
     public decimal PorcentajeRetencion { get; set; }
 
     /// <summary>
-    /// Obtiene el sueldo neto del empleado despuÈs de aplicar las retenciones y sumar el incentivo.
+    /// Obtiene el sueldo neto del empleado despu√©s de aplicar las retenciones y sumar el incentivo.
     /// </summary>
     /// <remarks>
     /// Se calcula como: Sueldo - (Sueldo * PorcentajeRetencion / 100) + Incentivo
@@ -42,7 +42,7 @@ public class Empleado : Persona
     public decimal SueldoNeto => Sueldo - Sueldo * PorcentajeRetencion / 100 + Incentivo;
 
     /// <summary>
-    /// Indica si el empleado est· afecto al ArtÌculo 22 (sin lÌmite de jornada laboral).
+    /// Indica si el empleado est√° afecto al Art√≠culo 22 (sin l√≠mite de jornada laboral).
     /// </summary>
     public bool AfectoArticulo22 { get; set; }
 

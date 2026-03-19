@@ -1,7 +1,7 @@
 namespace ConsoleUI.Models;
 
 /// <summary>
-/// Representa una persona con información básica de identificación.
+/// Representa una persona con informaciÃ³n bÃ¡sica de identificaciÃ³n.
 /// </summary>
 public class Persona
 {
@@ -11,7 +11,7 @@ public class Persona
     public required string Name { get; set; }
 
     /// <summary>
-    /// Obtiene o establece la edad de la persona en años.
+    /// Obtiene o establece la edad de la persona en aÃ±os.
     /// </summary>
     /// <value>El valor predeterminado es 0.</value>
     public int Age { get; set; } = 0;
