@@ -5,28 +5,28 @@ using FluentValidation;
 namespace ConsoleUI.Validators;
 
 /// <summary>
-/// Fábrica estática encargada de crear validadores para la entidad <see cref="Empleado"/>.
+/// Fabrica estatica encargada de crear validadores para la entidad <see cref="Empleado"/>.
 /// </summary>
 /// <remarks>
 /// <para>
 /// Combina las reglas base heredadas de <see cref="PersonaValidatorFactory.GetPersonaBaseRules{T}"/>
-/// con reglas específicas del dominio de un empleado, incluyendo validaciones sobre:
+/// con reglas especÃ­ficas del dominio de un empleado, incluyendo validaciones sobre:
 /// </para>
 /// <list type="bullet">
-///   <item><description>Edad mínima de 18 años.</description></item>
-///   <item><description>Fecha de contratación requerida y no futura.</description></item>
-///   <item><description>Sueldo mínimo configurable.</description></item>
-///   <item><description>Porcentaje de retención acorde al rango salarial.</description></item>
+///   <item><description>Edad mÃ­nima de 18 aÃ±os.</description></item>
+///   <item><description>Fecha de contrataciÃ³n requerida y no futura.</description></item>
+///   <item><description>Sueldo mÃ­nimo configurable.</description></item>
+///   <item><description>Porcentaje de retenciÃ³n acorde al rango salarial.</description></item>
 ///   <item><description>Incentivo correspondiente a la <see cref="Sucursal"/> asignada.</description></item>
-///   <item><description>Horas diarias según si el empleado está afecto al Artículo 22.</description></item>
+///   <item><description>Horas diarias segÃºn si el empleado estÃ¡ afecto al ArtÃ­culo 22.</description></item>
 /// </list>
 /// </remarks>
 public static class EmpleadoValidatorFactory
 {
     /// <summary>
     /// Crea una instancia de <see cref="DynamicValidator{T}"/> configurada con todas las reglas
-    /// de validación aplicables a un <see cref="Empleado"/>, incluyendo las reglas base de
-    /// <see cref="Persona"/> y las reglas específicas del empleado.
+    /// de validaciÃ³n aplicables a un <see cref="Empleado"/>, incluyendo las reglas base de
+    /// <see cref="Persona"/> y las reglas especÃ­ficas del empleado.
     /// </summary>
     /// <returns>
     /// Una nueva instancia de <see cref="DynamicValidator{T}"/> de tipo <see cref="Empleado"/>.
@@ -37,24 +37,26 @@ public static class EmpleadoValidatorFactory
         var sueldoMinimo = 1000m;
 
         const bool Enabled = true;
+#pragma warning disable CS0219 // Variable is assigned but its value is never used
         const bool Disabled = false;
+#pragma warning restore CS0219 // Variable is assigned but its value is never used
 
         // Obtener reglas base de Persona
         var rulesToApply = PersonaValidatorFactory.GetPersonaBaseRules<Empleado>();
 
-        // Agregar regla específica: empleado debe ser mayor de 18
+        // Agregar regla especï¿½fica: empleado debe ser mayor de 18
         rulesToApply.Add(
             v => v.RuleFor(e => e.Age)
                 .GreaterThanOrEqualTo(18)
-                .WithMessage("El empleado debe ser mayor de 18 años"),
+                .WithMessage("El empleado debe ser mayor de 18 aï¿½os"),
             Enabled
         );
 
-        // Reglas específicas de Empleado
+        // Reglas especï¿½ficas de Empleado
         rulesToApply.Add(
             v => v.RuleFor(e => e.FechaContratacion)
                 .NotEmpty()
-                .WithMessage("La fecha de contratación es requerida"),
+                .WithMessage("La fecha de contrataciï¿½n es requerida"),
             Enabled
         );
         rulesToApply.Add(
@@ -66,7 +68,7 @@ public static class EmpleadoValidatorFactory
         rulesToApply.Add(
             v => v.RuleFor(e => e.Sueldo)
                 .GreaterThanOrEqualTo(sueldoMinimo)
-                .WithMessage($"El sueldo debe ser como mínimo de {sueldoMinimo}"),
+                .WithMessage($"El sueldo debe ser como mï¿½nimo de {sueldoMinimo}"),
             Enabled
         );
         rulesToApply.Add(
@@ -79,11 +81,11 @@ public static class EmpleadoValidatorFactory
             v => v.RuleFor(e => e)
                 .Must(TenerRetencionValidaSegunSueldo)
                 .WithName("PorcentajeRetencion")
-                .WithMessage("El porcentaje de retención no corresponde al sueldo del empleado"),
+                .WithMessage("El porcentaje de retenciï¿½n no corresponde al sueldo del empleado"),
             Enabled
         );
 
-        // Validacion de incentivos según la sucursal
+        // Validacion de incentivos segï¿½n la sucursal
         rulesToApply.Add(
             v => v.RuleFor(e => e.Incentivo)
                 .Must((empleado, incentivo) => TenerIncentivoValidoSegunSucursal(empleado))
@@ -92,7 +94,7 @@ public static class EmpleadoValidatorFactory
             Enabled
         );
 
-        // Empleados NO afectos al Art. 22: mínimo 8 horas, máximo 12
+        // Empleados NO afectos al Art. 22: mï¿½nimo 8 horas, mï¿½ximo 12
         rulesToApply.Add(
             v => v.RuleFor(e => e.HorasDiarias)
             .InclusiveBetween(8,12)
@@ -101,7 +103,7 @@ public static class EmpleadoValidatorFactory
             Enabled
         );
 
-        // Empleados afectos al Art. 22: sin mínimo, pero máximo 24 (validación básica)
+        // Empleados afectos al Art. 22: sin mï¿½nimo, pero mï¿½ximo 24 (validaciï¿½n bï¿½sica)
         rulesToApply.Add(
             v => v.RuleFor(e => e.HorasDiarias)
                 .InclusiveBetween(0, 24)
@@ -114,11 +116,11 @@ public static class EmpleadoValidatorFactory
     }
 
     /// <summary>
-    /// Determina si el porcentaje de retención del empleado corresponde al esperado según su sueldo.
+    /// Determina si el porcentaje de retenciï¿½n del empleado corresponde al esperado segï¿½n su sueldo.
     /// </summary>
     /// <param name="empleado">Instancia de <see cref="Empleado"/> a evaluar.</param>
     /// <returns>
-    /// <see langword="true"/> si el porcentaje de retención coincide con el esperado;
+    /// <see langword="true"/> si el porcentaje de retenciï¿½n coincide con el esperado;
     /// <see langword="false"/> en caso contrario.
     /// </returns>
     private static bool TenerRetencionValidaSegunSueldo(Empleado empleado)
@@ -128,19 +130,19 @@ public static class EmpleadoValidatorFactory
     }
 
     /// <summary>
-    /// Obtiene el porcentaje de retención esperado según el rango salarial.
+    /// Obtiene el porcentaje de retenciï¿½n esperado segï¿½n el rango salarial.
     /// </summary>
     /// <remarks>
     /// Los rangos definidos son:
     /// <list type="bullet">
-    ///   <item><description>$1.000 – $4.000: 5%</description></item>
-    ///   <item><description>$4.001 – $6.000: 7%</description></item>
-    ///   <item><description>Más de $6.000: 10%</description></item>
+    ///   <item><description>$1.000 ï¿½ $4.000: 5%</description></item>
+    ///   <item><description>$4.001 ï¿½ $6.000: 7%</description></item>
+    ///   <item><description>Mï¿½s de $6.000: 10%</description></item>
     ///   <item><description>Cualquier otro valor: 0%</description></item>
     /// </list>
     /// </remarks>
     /// <param name="sueldo">Sueldo bruto del empleado.</param>
-    /// <returns>Porcentaje de retención esperado.</returns>
+    /// <returns>Porcentaje de retenciï¿½n esperado.</returns>
     private static decimal ObtenerPorcentajeRetencionEsperado(decimal sueldo)
     {
         return sueldo switch
@@ -153,7 +155,7 @@ public static class EmpleadoValidatorFactory
     }
 
     /// <summary>
-    /// Determina si el incentivo del empleado corresponde al esperado según su sucursal.
+    /// Determina si el incentivo del empleado corresponde al esperado segï¿½n su sucursal.
     /// </summary>
     /// <param name="empleado">Instancia de <see cref="Empleado"/> a evaluar.</param>
     /// <returns>
@@ -167,7 +169,7 @@ public static class EmpleadoValidatorFactory
     }
 
     /// <summary>
-    /// Obtiene el monto de incentivo esperado según la sucursal asignada.
+    /// Obtiene el monto de incentivo esperado segï¿½n la sucursal asignada.
     /// </summary>
     /// <remarks>
     /// Los incentivos por sucursal son:
