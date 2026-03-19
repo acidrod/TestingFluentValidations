@@ -26,9 +26,6 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      - name: Set up Security Code Scan
-        uses: security-code-scan/security-code-scan-add-action@v1.2
-
       - name: Cache NuGet packages
         uses: actions/cache@v4
         with:
@@ -41,12 +38,9 @@ jobs:
         run: dotnet restore TestingFluentValidations.slnx
 
       - name: Build with Security Code Scan analysis
-        run: dotnet build TestingFluentValidations.slnx --no-restore /p:ErrorLevel=warn
-
-      - name: Convert SARIF for GitHub upload
-        uses: security-code-scan/security-code-scan-results-action@v1
-        with:
-          sarif_directory: results
+        run: |
+          mkdir -p results
+          dotnet build TestingFluentValidations.slnx --no-restore /p:ErrorLevel=warn /p:ReportAnalyzer=true /p:ErrorLog="$GITHUB_WORKSPACE/results/security-code-scan.sarif"
 
       - name: Upload SARIF results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v4
