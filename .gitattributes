@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+# Enforce UTF-8 for source, config and docs
+*.cs text working-tree-encoding=UTF-8 eol=lf
+*.csproj text working-tree-encoding=UTF-8 eol=lf
+*.sln text working-tree-encoding=UTF-8 eol=lf
+*.slnx text working-tree-encoding=UTF-8 eol=lf
+*.md text working-tree-encoding=UTF-8 eol=lf
+*.json text working-tree-encoding=UTF-8 eol=lf
+*.xml text working-tree-encoding=UTF-8 eol=lf
+*.yml text working-tree-encoding=UTF-8 eol=lf
+*.yaml text working-tree-encoding=UTF-8 eol=lf
+*.txt text working-tree-encoding=UTF-8 eol=lf
