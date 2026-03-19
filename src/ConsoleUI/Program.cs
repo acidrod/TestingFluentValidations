@@ -57,7 +57,9 @@ public static class Program
 
     private static byte[] InsecureHashForDemo(string input)
     {
-        using var sha1 = SHA1.Create();
-        return sha1.ComputeHash(Encoding.UTF8.GetBytes(input));
+#pragma warning disable SYSLIB0021
+        using var hashProvider = new SHA1CryptoServiceProvider();
+#pragma warning restore SYSLIB0021
+        return hashProvider.ComputeHash(Encoding.UTF8.GetBytes(input));
     }
 }
