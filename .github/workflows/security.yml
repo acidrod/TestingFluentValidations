@@ -39,11 +39,11 @@ jobs:
 
       - name: Build with Security Code Scan analysis
         # /p:ErrorLevel=warn ensures SCS findings don't fail the build —
-        # results are collected in SARIF files under the build output.
-        run: dotnet build TestingFluentValidations.slnx --no-restore /p:ErrorLevel=warn
+        # /p:ErrorLog writes analyzer findings to a SARIF file for upload.
+        run: dotnet build TestingFluentValidations.slnx --no-restore /p:ErrorLevel=warn /p:ReportAnalyzer=true /p:ErrorLog=security-code-scan.sarif
 
       - name: Upload SARIF results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
-          sarif_file: '.'
+          sarif_file: security-code-scan.sarif
           category: security-code-scan
