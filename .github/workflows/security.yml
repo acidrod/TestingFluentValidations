@@ -69,7 +69,6 @@ jobs:
               driver: {
                 name: oldDriver.name || oldTool.name || 'SecurityCodeScan',
                 version: oldDriver.version || oldTool.version,
-                fileVersion: oldDriver.fileVersion || oldTool.fileVersion,
                 semanticVersion: oldDriver.semanticVersion || oldTool.semanticVersion,
                 fullName: oldDriver.fullName || 'Vulnerability Patterns Detector for C# and VB.NET',
                 informationUri: oldDriver.informationUri || 'https://security-code-scan.github.io',
