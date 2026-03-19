@@ -386,33 +386,16 @@ public class EmpleadoValidatorTests
     }
 
     /// <summary>
-    /// Verifica que horas menores a 8 fallen para empleados no afectos al Art. 22.
+    /// Verifica que horas fuera del rango 8-12 fallen para empleados no afectos al Art. 22.
     /// </summary>
     [Theory]
     [InlineData(0)]
     [InlineData(5)]
     [InlineData(7)]
-    public void Empleado_NoAfectoArt22_HorasMenorA8_DebeFallar(int horas)
-    {
-        var validator = ValidatorRegistry.GetValidator<Empleado>();
-        var empleado = CrearEmpleadoValido();
-        empleado.AfectoArticulo22 = false;
-        empleado.HorasDiarias = horas;
-
-        var result = validator.Validate(empleado);
-
-        Assert.False(result.IsValid);
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "El empleado debe trabajar entre 8 y 12 horas diarias");
-    }
-
-    /// <summary>
-    /// Verifica que horas mayores a 12 fallen para empleados no afectos al Art. 22.
-    /// </summary>
-    [Theory]
     [InlineData(13)]
     [InlineData(16)]
     [InlineData(24)]
-    public void Empleado_NoAfectoArt22_HorasMayorA12_DebeFallar(int horas)
+    public void Empleado_NoAfectoArt22_HorasFueraDeRango_DebeFallar(int horas)
     {
         var validator = ValidatorRegistry.GetValidator<Empleado>();
         var empleado = CrearEmpleadoValido();
@@ -420,9 +403,11 @@ public class EmpleadoValidatorTests
         empleado.HorasDiarias = horas;
 
         var result = validator.Validate(empleado);
+        var erroresHoras = result.Errors.Where(e => e.PropertyName == nameof(Empleado.HorasDiarias)).ToList();
 
         Assert.False(result.IsValid);
-        Assert.Contains(result.Errors, e => e.ErrorMessage == "El empleado debe trabajar entre 8 y 12 horas diarias");
+        Assert.Single(erroresHoras);
+        Assert.Equal("El empleado debe trabajar entre 8 y 12 horas diarias", erroresHoras[0].ErrorMessage);
     }
 
     #endregion
