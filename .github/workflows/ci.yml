@@ -100,7 +100,11 @@ jobs:
       - name: Build with Security Code Scan analysis
         run: |
           mkdir -p results
-          dotnet build src/ConsoleUI/ConsoleUI.csproj -t:Rebuild --no-restore /p:ErrorLevel=warn /p:ReportAnalyzer=true /p:ErrorLog="$GITHUB_WORKSPACE/results/security-code-scan.sarif"
+          if ! dotnet build src/ConsoleUI/ConsoleUI.csproj -t:Rebuild --no-restore /p:ErrorLevel=warn /p:ReportAnalyzer=true /p:ErrorLog="$GITHUB_WORKSPACE/results/security-code-scan.sarif" > results/security-build.log 2>&1; then
+            echo "Security build failed. Dumping build log:"
+            cat results/security-build.log
+            exit 1
+          fi
 
       - name: Normalize SARIF to 2.1.0 for GitHub upload
         run: |
@@ -237,6 +241,37 @@ jobs:
           const count = runs.reduce((acc, run) => acc + ((run.results || []).length), 0);
           console.log(`count=${count}`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `count=${count}\n`);
+          EOF
+
+      - name: Security findings summary
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+
+          const input = 'results/security-code-scan.sarif';
+          if (!fs.existsSync(input)) {
+            console.log('Security summary: no SARIF file found.');
+            process.exit(0);
+          }
+
+          const sarif = JSON.parse(fs.readFileSync(input, 'utf8'));
+          const runs = Array.isArray(sarif.runs) ? sarif.runs : [];
+          const results = runs.flatMap((r) => Array.isArray(r.results) ? r.results : []);
+
+          const countsByRule = new Map();
+          for (const r of results) {
+            const ruleId = String(r.ruleId || 'UNKNOWN');
+            countsByRule.set(ruleId, (countsByRule.get(ruleId) || 0) + 1);
+          }
+
+          const top = [...countsByRule.entries()]
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([rule, count]) => `${rule}:${count}`)
+            .join(', ');
+
+          console.log(`Security summary: total findings = ${results.length}`);
+          console.log(`Security summary: top rules = ${top || 'none'}`);
           EOF
 
       - name: Upload SARIF results to GitHub Security tab
