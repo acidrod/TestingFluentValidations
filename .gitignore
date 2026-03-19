@@ -19,6 +19,9 @@ publish/
 *.log
 *.tmp
 *.temp
+results/
+*.sarif
+*.sarif.json
 
 # Test and benchmark outputs
 TestResults/
